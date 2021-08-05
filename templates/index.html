@@ -1,14 +1,61 @@
 <head xmlns="http://www.w3.org/1999/html">
     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <style>
-        *,
-*::before,
-*::after {
-  box-sizing: border-box;
+
+.fa {
+    padding: 8px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    margin: 12px 10px;
+    margin-top: 23px;
 }
 
+    .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 140px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 80%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+
 body,
-section {
+.section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,8 +117,8 @@ button {
     align-self: center;
 }
 
-section {
-    min-height: 90px;
+.section {
+    min-height: 30px;
     text-align: center;
     /*background-color: none;*/
     margin-left: 20px;
@@ -81,34 +128,58 @@ section {
 </style>
 </head>
 <main style="border-radius: 5px">
-    <title>URL Shortner</title>
-  <h1>Your URL Shortener</h1>
+    <title>Your URL Shortner</title>
+  <h1>URL Shortener</h1>
   <form id="post-form" style="text-align: center;">
     {% csrf_token %}
   <input type="text" name="link" id="link" placeholder="Enter URL here">
   <div style="padding: 10px; alignment: center;">
     <button style="alignment: center;" type="submit" id="shorten">Shorten</button>
   </div>
-    <section style="border-radius: 5px;" class="section"><a href="" target="_blank"></a></section>
+  <a id="url" style="border-radius: 5px;" class="section"href="" target="_blank"></a>
+  <div class="tooltip">
+     <div onclick="myFunction()" onmouseout="outFunc()"><span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+      <i class="fa fa-clipboard"></i></div>
     <button onClick="window.location.reload();">Shorten New URL</button>
-  </form>
 
+       </div>
+  </form>
 </main>
 
 <script type="text/javascript">
-  $(document).on('submit','#post-form',function(e){
-    e.preventDefault();
-    $.ajax({
-      type:'POST',
-      url:'/create',
-      data:{
-        link:$('#link').val(),
-        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-      },
-      success: function(data){
-        $('a').html("https://yoururlshortner.herokuapp.com/"+data);
-        $('a').attr("href", "https://yoururlshortner.herokuapp.com/"+data);
-      }
+function myFunction() {
+/* Get the text field */
+var copyText = document.getElementById("url").href;
+
+document.addEventListener('copy', function(e) {
+  e.clipboardData.setData('text/plain', copyText);
+  e.preventDefault();
+}, true);
+
+document.execCommand("copy");
+var tooltip = document.getElementById("myTooltip");
+tooltip.innerHTML = " Shortened Link Copied to Clipboard";
+
+
+}
+function outFunc() {
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Copy to clipboard";
+}
+
+$(document).on('submit','#post-form',function(e){
+e.preventDefault();
+$.ajax({
+  type:'POST',
+  url:'/create',
+  data:{
+    link:$('#link').val(),
+    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+  },
+  success: function(data){
+    $('a').html("https://yoururlshortner.herokuapp.com/"+data);
+    $('a').attr("href", "https://yoururlshortner.herokuapp.com/"+data);
+  }
     });
   });
 </script>
