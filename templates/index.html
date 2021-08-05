@@ -1,0 +1,114 @@
+<head xmlns="http://www.w3.org/1999/html">
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <style>
+        *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Lato", sans-serif;
+  line-height: 1.5;
+  color: #111;
+}
+
+main {
+  max-width: 720px;
+  width: 100%;
+  border: 2.5px solid #330867;
+  border-radius: 2.5px;
+  box-shadow: 0 10px 20px rgba(17, 17, 17, 0.125),
+    0 5px 5px rgba(17, 17, 17, 0.25);
+    background: #3AA887;
+background: -webkit-linear-gradient(right, #3AA887, #9AB5EC);
+background: -moz-linear-gradient(right, #3AA887, #9AB5EC);
+background: linear-gradient(to left, #3AA887, #9AB5EC);
+    /*background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);*/
+}
+
+h1 {
+    padding: 1rem;
+    color: blue;
+    text-align: center;
+}
+
+
+input[type=text],
+input[type=password],
+textarea {
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    border: none;
+    alignment: center;
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 20px;
+
+}
+
+button {
+    border: 1px solid #757575;
+    background-color: #FFF;
+    color: blue;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    align-self: center;
+}
+
+section {
+    min-height: 90px;
+    text-align: center;
+    /*background-color: none;*/
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+</style>
+</head>
+<main style="border-radius: 5px">
+    <title>Your URL Shortner</title>
+  <h1>URL Shortener</h1>
+  <form id="post-form" style="text-align: center;">
+    {% csrf_token %}
+  <input type="text" name="link" id="link" placeholder="Enter URL here">
+  <div style="padding: 10px; alignment: center;">
+    <button style="alignment: center;" type="submit" id="shorten">Shorten</button>
+  </div>
+    <section style="border-radius: 5px;" class="section"><a href="" target="_blank"></a></section>
+    <button onClick="window.location.reload();">Shorten New URL</button>
+  </form>
+
+</main>
+
+<script type="text/javascript">
+  $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+    $.ajax({
+      type:'POST',
+      url:'/create',
+      data:{
+        link:$('#link').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        $('a').html("https://yoururlshortner.herokuapp.com/"+data);
+        $('a').attr("href", "https://yoururlshortner.herokuapp.com/"+data);
+      }
+    });
+  });
+</script>
