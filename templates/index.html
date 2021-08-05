@@ -139,10 +139,10 @@ button {
   <a id="url" style="border-radius: 5px;" class="section"href="" target="_blank"></a>
   <div class="tooltip">
      <div onclick="myFunction()" onmouseout="outFunc()"><span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
-      <i class="fa fa-clipboard"></i></div>
+      <i id="clipboard" class="fa fa-clipboard"></i></div>
     <button onClick="window.location.reload();">Shorten New URL</button>
 
-       </div>
+   </div>
   </form>
 </main>
 
@@ -158,8 +158,9 @@ document.addEventListener('copy', function(e) {
 
 document.execCommand("copy");
 var tooltip = document.getElementById("myTooltip");
-tooltip.innerHTML = " Shortened Link Copied to Clipboard";
+tooltip.innerHTML = "Copied!";
 
+// $('i').attr("class", "fas fa-check")
 
 }
 function outFunc() {
