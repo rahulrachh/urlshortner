@@ -1,5 +1,5 @@
 # urlshortner
-Made URL shortner in django along with HTML, CSS and Javascript.
+Made URL shortner in django with HTML, CSS and Javascript.
 
 - Home Screen
 ![Capture](https://user-images.githubusercontent.com/25946587/128321027-cb364bee-c6c9-4af1-bcac-6716f644a97f.PNG)
